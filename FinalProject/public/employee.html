@@ -25,7 +25,17 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
     </div>
     <div class="w3-col s8 w3-bar">
-      <span>Welcome, <strong>Guest</strong></span><br>
+      <span>Welcome <strong>                
+          <script>
+        //personalized to let individual know if they are logged in or not
+        if (username != ""){
+            document.write(`You are logged in, ${user_reg_data[username].name}`)
+        }
+        else{
+            document.write(``)
+        }
+    </script>
+    </strong></span><br>
 
     </div>
   </div>

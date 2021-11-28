@@ -55,7 +55,24 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <h5><b><i class="fa fa-dashboard"></i> Welcome to Coffee Shop!</b></h5>
   </header>
 
+  <form action="/loginform" method="post">
+    <div class="imgcontainer">
+        <img class="displayimage" src="./images/Logo.png" alt="Avatar" class="avatar">
+    </div>
+    <h1>Employee Login</h1>
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
 
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+
+        <button type="submit">Login</button>
+        <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+    </div>
+</form>
 
   <div class="w3-row-padding w3-margin-bottom">
     <div class="w3-quarter">

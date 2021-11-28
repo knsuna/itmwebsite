@@ -3,6 +3,8 @@ var app = express();
 var myParser = require("body-parser");
 var mysql = require('mysql');
 var fs = require('fs'); 
+var user_data_filename = `./public/user_data.json`;
+
 
 console.log("Connecting to localhost...");
 var con = mysql.createConnection({
@@ -169,6 +171,51 @@ app.post("/numoforder", function (request, response) {
 app.post("/numofmaterials", function (request, response) {
   let POST = request.body;
   numofmaterials(POST, response);
+});
+
+app.post("/user_data", function (request, response) {
+  response.json(user_reg_data);
+});
+
+//Taken from Lab14. Checks to see if user_data.json exists
+if (fs.existsSync(user_data_filename)) {
+  data = fs.readFileSync(user_data_filename, 'utf-8');
+  stats = fs.statSync(user_data_filename)
+  var user_reg_data = JSON.parse(data); // Takes a string and converts it into object or array    
+  console.log(user_data_filename + ' has ' + stats.size + ' characters');
+
+  console.log(user_reg_data);//Displays register users in user_data.json
+} else {
+  console.log(user_data_filename + ' does not exist!');//Displays warning if user_data.json is missing
+}
+
+app.post("/loginform", function (request, response) {
+  // Process login form POST and redirect to logged in page if ok, back to login page if not
+  console.log(request.body);
+  username = request.body.username.toLowerCase();//will recieve username in lowercase ONLY
+  if (typeof user_reg_data[username] != 'undefined') {
+      //if username exists, get password 
+      if ((user_reg_data[username].password == request.body.password) == true) {
+          console.log(username + ' logged in');
+          fullname = user_reg_data[username].name;
+          response.cookie(`username`, username, {maxAge: 300000});
+          response.redirect(`./employee.html`)
+      } else {
+          response.send(`<script>
+          alert("The password that you have entered is not correct."); 
+          window.history.back(); 
+          
+          </script>`);
+      }
+  } else {
+      //Option to go back and retry login, or register a new account
+      response.send(`<script>
+      alert("The username you have entered does not match our records."); 
+      window.history.back(); 
+      
+      </script>`);
+  }
+
 });
 
 app.listen(8080, () => console.log(`listening on port 8080`));
