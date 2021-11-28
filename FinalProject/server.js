@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var myParser = require("body-parser");
 var mysql = require('mysql');
+var fs = require('fs'); 
 
 console.log("Connecting to localhost...");
 var con = mysql.createConnection({
@@ -28,7 +29,7 @@ function isNonNegInt(stringToCheck, returnErrors = false) {
 
   return returnErrors ? errors : (errors.length == 0);
 }
-
+/*
 function query_DB(POST, response) {
   if (isNonNegInt(POST['low_price'])
     && isNonNegInt(POST['high_price'])) {   // Only query if we got a low and high price
@@ -60,6 +61,90 @@ function query_DB(POST, response) {
     response.send("Enter some prices doofus!");
   }
 }
+*/
+function numofemployee(POST, response) {
+    query = POST['numofemployee'];
+    
+    con.query(query, function (err, result, fields) {   // Run the query
+      if (err) throw err;
+      console.log(result);
+      var res_string = JSON.stringify(result);
+      var res_json = JSON.parse(res_string);
+      console.log(res_json);
+
+      // Now build the response: table of results and form to do another query
+      response_form = `<form action="index.html" method="GET">`;
+      response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+      response_form += `<td><B>First Name</td><td><B>Last Name</td><td><B>Gender</td></b>`;
+      for (i in res_json) {
+        response_form += `<tr><td> ${res_json[i].Fname}</td>`;
+        response_form += `<td> ${res_json[i].Lname}</td>`;
+        response_form += `<td> ${res_json[i].Gender}</td>`;
+      }
+      response_form += "</table>";
+      response_form += `<input type="submit" value="Another Query?"> </form>`;
+      console.log(response_form)
+      var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+      return response.send(eval('`' + contents + '`')); // render template string)
+    });
+
+}
+
+function numoforder(POST, response) {
+  query = POST['numoforder'];
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    console.log(result);
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json);
+
+    // Now build the response: table of results and form to do another query
+    response_form = `<form action="index.html" method="GET">`;
+    response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+    response_form += `<td><B>Order Number</td><td><B>Order ID</td><td><B>Order Date</td><td><B>Order Time</td></b>`;
+    for (i in res_json) {
+      response_form += `<tr><td> ${res_json[i].O_num}</td>`;
+      response_form += `<td> ${res_json[i].O_id}</td>`;
+      response_form += `<td> ${res_json[i].O_date}</td>`;
+      response_form += `<td> ${res_json[i].O_time}</td>`;
+    }
+    response_form += "</table>";
+    response_form += `<input type="submit" value="Another Query?"> </form>`;
+    var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    return response.send(eval('`' + contents + '`')); // render template string)
+  });
+
+  
+}
+
+function numofmaterials(POST, response) {
+  query = POST['numofmaterials'];
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    console.log(result);
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json);
+
+    // Now build the response: table of results and form to do another query
+    response_form = `<form action="index.html" method="GET">`;
+    response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+    response_form += `<td><B>Material Name</td><td><B>Type</td><td><B>Quantity</td><td><B>Price</td></b>`;
+    for (i in res_json) {
+      response_form += `<tr><td> ${res_json[i].M_name}</td>`;
+      response_form += `<td> ${res_json[i].M_type}</td>`;
+      response_form += `<td> ${res_json[i].M_quantity}</td>`;
+      response_form += `<td> ${res_json[i].M_price}</td>`;
+    }
+    response_form += "</table>";
+    response_form += `<input type="submit" value="Another Query?"> </form>`;
+    var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    return response.send(eval('`' + contents + '`')); // render template string)
+  });
+
+  
+}
 
 app.all('*', function (request, response, next) {
   console.log(request.method + ' to ' + request.path);
@@ -69,6 +154,21 @@ app.all('*', function (request, response, next) {
 app.post("/process_query", function (request, response) {
   let POST = request.body;
   query_DB(POST, response);
+});
+
+app.post("/numofemployee", function (request, response) {
+  let POST = request.body;
+  numofemployee(POST, response);
+});
+
+app.post("/numoforder", function (request, response) {
+  let POST = request.body;
+  numoforder(POST, response);
+});
+
+app.post("/numofmaterials", function (request, response) {
+  let POST = request.body;
+  numofmaterials(POST, response);
 });
 
 app.listen(8080, () => console.log(`listening on port 8080`));
