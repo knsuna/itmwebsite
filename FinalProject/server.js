@@ -146,6 +146,7 @@ function customerinfo(POST, response) {
     return response.send(eval('`' + contents + '`')); // render template string)
   });
 }
+
 function employee_efficiency(POST, response) {
     start = POST['start_date'];      // Grab the parameters from the submitted form
     end = POST['end_date'];
@@ -200,8 +201,8 @@ function add_customer(POST, response) {
       </script>`);
     }
   });
-
 }
+
 function add_employee(POST, response) {
   Ssn = POST[`Ssn`]
   Fname = POST['Fname'];
@@ -252,6 +253,114 @@ function add_employee(POST, response) {
   con.query(`UPDATE employee SET Bdate=Null WHERE Bdate=""`, function (err, result, fields) { 
     if (err) throw err
   });
+}
+
+function order_form(POST, response) {
+  query = "SELECT * FROM material";
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    //console.log(result);
+
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+
+    // Now build the response: table of results and form to do another query
+    response_form = `<select name="dropdown">`;
+    for (i in res_json) {
+      response_form += `<option value="${res_json[i].M_id}" > ${res_json[i].M_name} | Quantity: ${res_json[i].M_quantity}</option>`;
+    }
+    response_form += `</select>`;
+        
+    var contents = fs.readFileSync('./public/order.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    return response.send(eval('`' + contents + '`')); // render template string)
+  });
+}
+
+
+function check_inv(POST, response) {
+  query = "SELECT M_id, M_name, M_quantity, M_price, Sup_name FROM material,supplier WHERE material.Sup_num=supplier.Sup_num AND M_quantity<=3";
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    //console.log(result);
+
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json);
+
+    // Now build the response: table of results and form to do another query
+    response_form = `<form action="Room-query.html" method="GET">`;
+    response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+    response_form += `<td><B>Material ID</td><td><B>Material Name</td><td><B>Material Quantity</td><td><B>Material Price</td><td><B>Supplier</td>`;
+    for (i in res_json) {
+    response_form += `<tr><td> ${res_json[i].M_id}</td>`;
+    response_form += `<td> ${res_json[i].M_name}</td>`;
+    response_form += `<td> ${res_json[i].M_quantity}</td>`;
+    response_form += `<td> ${res_json[i].M_price}</td>`;
+    response_form += `<td> ${res_json[i].Sup_name}</td>`;
+    }
+    response_form += "</table>";
+    response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
+          var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+      return response.send(eval('`' + contents + '`')); // render template string)
+  });
+}
+
+
+function add_customer(POST, response) {
+  Fname = POST['Fname'];
+  Minit = POST['Minit'];
+  Lname = POST['Lname'];
+  Pnum = POST['pnum'];
+  query = `INSERT INTO Customer (Fname, Minit, Lname, Pnum) VALUES ( "${Fname}", "${Minit}", "${Lname}", "${Pnum}")`;  // Build the query string
+  console.log(query)
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) {
+      response.send(`<script>
+      alert("${err.sqlMessage}"); 
+      window.history.back(); 
+      
+      </script>`);
+  
+    }
+    else {
+      response.send(`<script>
+      alert("The record has been added"); 
+      window.history.back(); 
+      
+      </script>`);
+    }
+  });
+}
+
+function create_order(POST, response) {
+  dropdown = POST[`dropdown`]
+  oqty = POST['oqty'];
+  odate = POST['odate'];
+  otime = POST['otime'];
+  eid = POST[`eid`]
+  cid = POST[`cid`]
+
+  query = `INSERT INTO \`order\` (O_id, O_quantity, O_date, O_time, Ssn, Cust_id) VALUES ( "${dropdown}","${oqty}", "${odate}", "${otime}", "${eid}","${cid}")`;  // Build the query string
+  console.log(query)
+  con.query(query, function (err, result, fields) {  
+    if (err) {
+      response.send(`<script>
+      alert("${err.sqlMessage}"); 
+      window.history.back(); 
+      
+      </script>`);
+  
+    }
+    
+    else {
+      
+      response.send(`<script>
+      alert("The record has been added"); 
+      window.history.back(); 
+      
+      </script>`);
+    }
+  });
 
 
 }
@@ -301,17 +410,26 @@ app.post("/add_employee", function (request, response) {
   add_employee(POST, response);
 });
 
+app.post("/order_form", function (request, response) {
+  let POST = request.body;
+  order_form(POST, response);
+});
+
+app.post("/create_order", function (request, response) {
+  let POST = request.body;
+  create_order(POST, response);
+});
+
+app.post("/check_inv", function (request, response) {
+  let POST = request.body;
+  check_inv(POST, response);
+});
 
 app.post("/user_data", function (request, response) {
   response.json(user_reg_data);
 });
 
-function checknull(value){
-  if(value="undefined"){
-    return value=null
-  }
 
-}
 
 
 //Taken from Lab14. Checks to see if user_data.json exists
