@@ -32,39 +32,9 @@ function isNonNegInt(stringToCheck, returnErrors = false) {
 
   return returnErrors ? errors : (errors.length == 0);
 }
-/*
-function query_DB(POST, response) {
-  if (isNonNegInt(POST['low_price'])
-    && isNonNegInt(POST['high_price'])) {   // Only query if we got a low and high price
-    low = POST['low_price'];      // Grab the parameters from the submitted form
-    high = POST['high_price'];
-    query = "SELECT * FROM Room where price > " + low + " and price < " + high;  // Build the query string
-    con.query(query, function (err, result, fields) {   // Run the query
-      if (err) throw err;
-      console.log(result);
-      var res_string = JSON.stringify(result);
-      var res_json = JSON.parse(res_string);
-      console.log(res_json);
 
-      // Now build the response: table of results and form to do another query
-      response_form = `<form action="Room-query.html" method="GET">`;
-      response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
-      response_form += `<td><B>Room#</td><td><B>Hotel#</td><td><B>Type</td><td><B>Price</td></b>`;
-      for (i in res_json) {
-        response_form += `<tr><td> ${res_json[i].roomNo}</td>`;
-        response_form += `<td> ${res_json[i].hotelNo}</td>`;
-        response_form += `<td> ${res_json[i].type}</td>`;
-        response_form += `<td> ${res_json[i].price}</td></tr>`;
-      }
-      response_form += "</table>";
-      response_form += `<input type="submit" value="Another Query?"> </form>`;
-      response.send(response_form);
-    });
-  } else {
-    response.send("Enter some prices doofus!");
-  }
-}
-*/
+var Null=null
+
 function numofemployee(POST, response) {
     query = POST['numofemployee'];
     
@@ -85,7 +55,7 @@ function numofemployee(POST, response) {
         response_form += `<td> ${res_json[i].Gender}</td>`;
       }
       response_form += "</table>";
-      response_form += `<input type="submit" value="Another Query?"> </form>`;
+      response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
       console.log(response_form)
       var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
       return response.send(eval('`' + contents + '`')); // render template string)
@@ -113,7 +83,7 @@ function numoforder(POST, response) {
       response_form += `<td> ${res_json[i].O_time}</td>`;
     }
     response_form += "</table>";
-    response_form += `<input type="submit" value="Another Query?"> </form>`;
+    response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
     var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
     return response.send(eval('`' + contents + '`')); // render template string)
   });
@@ -141,12 +111,148 @@ function numofmaterials(POST, response) {
       response_form += `<td> ${res_json[i].M_price}</td>`;
     }
     response_form += "</table>";
-    response_form += `<input type="submit" value="Another Query?"> </form>`;
+    response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
     var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
     return response.send(eval('`' + contents + '`')); // render template string)
   });
 
   
+}
+
+function customerinfo(POST, response) {
+  query = POST['customerinfo'];
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    console.log(result);
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json);
+
+    // Now build the response: table of results and form to do another query
+    response_form = `<form action="window.history.back()" method="GET">`;
+    response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+    response_form += `<td><B>Customer ID</td><td><B>First Name</td><td><B>Middle Initial</td><td><B>Last Name</td></b><td><B>Phone Number</td></b>`;
+    for (i in res_json) {
+      response_form += `<tr><td> ${res_json[i].Cust_id}</td>`;
+      response_form += `<td> ${res_json[i].Fname}</td>`;
+      response_form += `<td> ${res_json[i].Minit}</td>`;
+      response_form += `<td> ${res_json[i].Lname}</td>`;
+      response_form += `<td> ${res_json[i].Pnum}</td>`;
+    }
+    response_form += "</table>";
+    response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
+    var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    return response.send(eval('`' + contents + '`')); // render template string)
+  });
+}
+function employee_efficiency(POST, response) {
+    start = POST['start_date'];      // Grab the parameters from the submitted form
+    end = POST['end_date'];
+    query = `SELECT Fname, Lname, COUNT(\`order\`.Ssn) AS Total_Number From \`order\`, employee WHERE O_date> "${start}" AND O_date < \'${end}\' AND employee.Ssn=\`order\`.Ssn GROUP BY Fname, Lname;`;  // Build the query string
+    console.log(query)
+    con.query(query, function (err, result, fields) {   // Run the query
+      if (err) throw err;
+      console.log(result);
+      var res_string = JSON.stringify(result);
+      var res_json = JSON.parse(res_string);
+      console.log(res_json);
+
+      // Now build the response: table of results and form to do another query
+      response_form = `<form action="Room-query.html" method="GET">`;
+      response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+      response_form += `<td><B>First Name</td><td><B>Last Name</td><td><B>Total Number of Customers</td>`;
+      for (i in res_json) {
+        response_form += `<tr><td> ${res_json[i].Fname}</td>`;
+        response_form += `<td> ${res_json[i].Lname}</td>`;
+        response_form += `<td> ${res_json[i].Total_Number}</td>`;
+
+      }
+      response_form += "</table>";
+      response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
+      var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+      return response.send(eval('`' + contents + '`')); // render template string)
+    });
+
+}
+
+function add_customer(POST, response) {
+  Fname = POST['Fname'];
+  Minit = POST['Minit'];
+  Lname = POST['Lname'];
+  Pnum = POST['pnum'];
+  query = `INSERT INTO Customer (Fname, Minit, Lname, Pnum) VALUES ( "${Fname}", "${Minit}", "${Lname}", "${Pnum}")`;  // Build the query string
+  console.log(query)
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) {
+      response.send(`<script>
+      alert("${err.sqlMessage}"); 
+      window.history.back(); 
+      
+      </script>`);
+  
+    }
+    else {
+      response.send(`<script>
+      alert("The record has been added"); 
+      window.history.back(); 
+      
+      </script>`);
+    }
+  });
+
+}
+function add_employee(POST, response) {
+  Ssn = POST[`Ssn`]
+  Fname = POST['Fname'];
+  Minit = POST['Minit'];
+  Lname = POST['Lname'];
+  Address = POST[`Address`]
+  Gender = POST[`Gender`]
+  Bdate = POST[`Bdate`]
+  Salary = POST[`Salary`]
+  MSsn = POST[`Superssn`]
+  if(Minit="undefined"){
+    Minit=''
+  }
+  if(Bdate="undefined"){
+    Bdate=''
+  }
+  if(Salary="undefined"){
+    Salary=''
+  }
+
+  query = `INSERT INTO Employee (Ssn, Fname, Minit, Lname, Address, Gender, Bdate, Salary, Superssn) VALUES ( "${Ssn}","${Fname}", "${Minit}", "${Lname}", "${Address}", "${Gender}", "${Bdate}","${Salary}", "${MSsn}")`;  // Build the query string
+  console.log(query)
+  con.query(query, function (err, result, fields) {  
+    if (err) {
+      response.send(`<script>
+      alert("${err.sqlMessage}"); 
+      window.history.back(); 
+      
+      </script>`);
+  
+    }
+    
+    else {
+      
+      response.send(`<script>
+      alert("The record has been added"); 
+      window.history.back(); 
+      
+      </script>`);
+    }
+  });
+  con.query(`UPDATE employee SET Salary=Null WHERE Salary=""`, function (err, result, fields) { 
+    if (err) throw err
+  });
+  con.query(`UPDATE employee SET Minit=Null WHERE Minit=""`, function (err, result, fields) { 
+    if (err) throw err
+  });
+  con.query(`UPDATE employee SET Bdate=Null WHERE Bdate=""`, function (err, result, fields) { 
+    if (err) throw err
+  });
+
+
 }
 
 app.all('*', function (request, response, next) {
@@ -174,9 +280,38 @@ app.post("/numofmaterials", function (request, response) {
   numofmaterials(POST, response);
 });
 
+app.post("/customerinfo", function (request, response) {
+  let POST = request.body;
+  customerinfo(POST, response);
+});
+
+app.post("/employee_efficiency", function (request, response) {
+  let POST = request.body;
+  employee_efficiency(POST, response);
+});
+
+app.post("/add_customer", function (request, response) {
+  let POST = request.body;
+  add_customer(POST, response);
+});
+
+app.post("/add_employee", function (request, response) {
+  let POST = request.body;
+  add_employee(POST, response);
+});
+
+
 app.post("/user_data", function (request, response) {
   response.json(user_reg_data);
 });
+
+function checknull(value){
+  if(value="undefined"){
+    return value=null
+  }
+
+}
+
 
 //Taken from Lab14. Checks to see if user_data.json exists
 if (fs.existsSync(user_data_filename)) {
@@ -218,6 +353,8 @@ app.post("/loginform", function (request, response) {
   }
 
 });
+
+
 
 //Taken from Lab14. Checks to see if user_data.json exists
 if (fs.existsSync(mgr_user_data_filename)) {
