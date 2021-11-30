@@ -103,12 +103,13 @@ function numofmaterials(POST, response) {
     // Now build the response: table of results and form to do another query
     response_form = `<form action="index.html" method="GET">`;
     response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
-    response_form += `<td><B>Material Name</td><td><B>Type</td><td><B>Quantity</td><td><B>Price</td></b>`;
+    response_form += `<td><B>Material Name</td><td><B>Type</td><td><B>Quantity</td><td><B>Price</td></b><td><B>Cost</td></b>`;
     for (i in res_json) {
       response_form += `<tr><td> ${res_json[i].M_name}</td>`;
       response_form += `<td> ${res_json[i].M_type}</td>`;
       response_form += `<td> ${res_json[i].M_quantity}</td>`;
       response_form += `<td> ${res_json[i].M_price}</td>`;
+      response_form += `<td> ${res_json[i].M_Cost}</td>`;
     }
     response_form += "</table>";
     response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
