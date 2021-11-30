@@ -311,7 +311,8 @@ function add_customer(POST, response) {
   Minit = POST['Minit'];
   Lname = POST['Lname'];
   Pnum = POST['pnum'];
-  query = `INSERT INTO Customer (Fname, Minit, Lname, Pnum) VALUES ( "${Fname}", "${Minit}", "${Lname}", "${Pnum}")`;  // Build the query string
+  email=POST['email']
+  query = `INSERT INTO Customer (Fname, Minit, Lname, Pnum, email) VALUES ( "${Fname}", "${Minit}", "${Lname}", "${Pnum}", "${email}")`;  // Build the query string
   console.log(query)
   con.query(query, function (err, result, fields) {   // Run the query
     if (err) {
@@ -356,7 +357,7 @@ function create_order(POST, response) {
       
       response.send(`<script>
       alert("The record has been added"); 
-      window.history.back(); 
+      window.history.go(-2); 
       
       </script>`);
     }

@@ -55,7 +55,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     Order Time <input type='time'  name='otime' required><BR>
     Employee ID <input type='number' maxlength="10" name='eid' required><BR>
     Customer ID <input type='number' maxlength="10" name='cid' required><BR>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" >
   </Form>
 
   <div class="w3-row-padding w3-margin-bottom">
