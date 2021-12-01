@@ -253,6 +253,7 @@ function add_employee(POST, response) {
   con.query(`UPDATE employee SET Bdate=Null WHERE Bdate=""`, function (err, result, fields) { 
     if (err) throw err
   });
+  
 }
 
 function order_form(POST, response) {

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<title>Coffee Talk</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+    <a href="./index.html#home" class="w3-bar-item w3-button">Coffee Talk</a>
+    <!-- Right-sided navbar links. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      <a href="./index.html#about" class="w3-bar-item w3-button">About</a>
+      <a href="./index.html#menu" class="w3-bar-item w3-button">Menu</a>
+      <a href="./index.html#contact" class="w3-bar-item w3-button">Contact</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px" id="home">
+  <img class="w3-image" src="/w3images/hamburger.jpg" alt="Hamburger Catering" width="1600" height="800">
+  <div class="w3-display-bottomleft w3-padding-large w3-opacity">
+    <h1 class="w3-xxlarge">Coffee Talk</h1>
+  </div>
+</header>
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:1100px">
+
+  <!-- About Section -->
+  <div class="w3-row w3-padding-32" id="about">
+    <div class="w3-col m6 w3-padding-large w3-hide-small">
+     <img src="./pictures/20170610_180133.jpg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="600" height="750">
+    </div>
+
+    <div class="w3-col m6 w3-padding-large">
+      <h1 class="w3-center">Here is our Full Menu!</h1><br>
+      <a href="./menu.html#coffee" class="w3-bar-item w3-button">Coffee and Tea</a>
+      <a href="./menu.html#beverage" class="w3-bar-item w3-button">Other Beverages</a>
+      <a href="./menu.html#pasteries" class="w3-bar-item w3-button">Pasteries</a>
+      <a href="./menu.html#breakfast" class="w3-bar-item w3-button">Breakfast</a>
+    </div>
+  </div>
+  <hr>
+  
+  <!-- Menu Section -->
+    <h1 class="w3-center" id="coffee">Coffee and Teas</h1><br>
+    <div class="row">
+        <div class="column">
+            <h4>Hot Drip Coffee</h4>
+            <h5>$3.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/hotdripcoffee.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Hot Tea</h4>
+            <h5>$3.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/hottea.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Cold Brew Iced Coffee</h4>
+            <h5>$4.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/coldbrewicedcoffee.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Cold Brew</h4>
+            <h5>$5.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/coldbrew.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Espresso</h4>
+            <h5>$3.50</h5>
+            <p class="w3-text-grey"><img src="./pictures/espresso.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+        </div>
+        <div class="column" >
+            <h4>Americano</h4>
+            <h5>$4.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/americano.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Red Eye</h4>
+            <h5>$4.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/redeye.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Latte</h4>
+            <h5>$4.75</h5>
+            <p class="w3-text-grey"><img src="./pictures/latte.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Cappuccino</h4>
+            <h5>$4.50</h5>
+            <p class="w3-text-grey"><img src="./pictures/cappuccino.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Mocha</h4>
+            <h5>$5.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/mocha.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+        </div>
+        <div class="column">
+            <h4>Thai Latte</h4>
+            <h5>$5.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/thai latte.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Chai Latte</h4>
+            <h5>$6.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/chai latte.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Matcha/Turmeric Latte</h4>
+            <h5>$6.50</h5>
+            <p class="w3-text-grey"><img src="./pictures/matcha-turmeric latte.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+        </div>
+    </div>
+
+    <h1 class="w3-center" id="beverage">Other Beverages</h1><br>
+    <div class="row">
+        <div class="column">
+            <h4>Ever & Ever</h4>
+            <h5>$4.25</h5>
+            <p class="w3-text-grey"><img src="./pictures/ever.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Vita CoCo</h4>
+            <h5>$4.00</h5>
+            <p class="w3-text-grey"><img src="./pictures/vita.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+        </div>
+        <div class="column" >
+            <h4>Clean Cause</h4>
+            <h5>$4.50</h5>
+            <p class="w3-text-grey"><img src="./pictures/clean.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Shaka Tea</h4>
+            <h5>$4.25</h5>
+            <p class="w3-text-grey"><img src="./pictures/shaka.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+        </div>
+        <div class="column">
+            <h4>Fresh Squeezed Govinda's Juice</h4>
+            <h5>$4.50</h5>
+            <p class="w3-text-grey"><img src="./pictures/freshsqueezed.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          
+            <h4>Big Island Booch</h4>
+            <h5>$6.25</h5>
+            <p class="w3-text-grey"><img src="./pictures/big island.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+
+          
+        </div>
+    </div>
+  <hr>
+
+  <h1 class="w3-center" id="pasteries">Pasteries</h1><br>  
+  <div class="row">
+    <div class="column">
+        <h4>Mini Bundt Cake</h4>
+        <h5>$5.00</h5>
+        <p class="w3-text-grey"><img src="./pictures/bundt.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      
+        <h4>Butter Mochi</h4>
+        <h5>$2.00</h5>
+        <p class="w3-text-grey"><img src="./pictures/mochi.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      
+        <h4>Muffin of the Day</h4>
+        <h5>$3.00</h5>
+        <p class="w3-text-grey"><img src="./pictures/muffin.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      
+    </div>
+    <div class="column" >
+        <h4>Scones</h4>
+        <h5>$3.00</h5>
+        <p class="w3-text-grey"><img src="./pictures/scones.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      
+        <h4>Almond Croissant "Bear Claw"</h4>
+        <h5>$4.00</h5>
+        <p class="w3-text-grey"><img src="./pictures/almond croissant.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      
+        <h4>Savory Pastry of the Day</h4>
+        <h5>$4.25</h5>
+        <p class="w3-text-grey"><img src="./pictures/pastry of the day.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      
+    </div>
+    <div class="column">
+        <h4>Banana Bread</h4>
+        <h5>$3.25</h5>
+        <p class="w3-text-grey"><img src="./pictures/banana.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      
+        <h4>Oatcake</h4>
+        <h5>$3.00</h5>
+        <p class="w3-text-grey"><img src="./pictures/oatcake.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      
+      
+    </div>
+</div>
+
+<h1 class="w3-center" id="breakfast">Breakfast</h1><br>  
+<div class="row">
+  <div class="column">
+      <h4>Lox, Bagel, and Cream Cheese Platter</h4>
+      <h5>$14.50</h5>
+      <p class="w3-text-grey"><img src="./pictures/lox.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+    
+      <h4>Pesto Bagel Platter</h4>
+      <h5>$7.00</h5>
+      <p class="w3-text-grey"><img src="./pictures/pesto.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+    
+  </div>
+  <div class="column" >
+      <h4>Bagel and Cream Cheese</h4>
+      <h5>$4.00</h5>
+      <p class="w3-text-grey"><img src="./pictures/cream.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+    
+      <h4>Quiche of the Day</h4>
+      <h5>$4.00</h5>
+      <p class="w3-text-grey"><img src="./pictures/quiche.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+    
+  </div>
+  <div class="column">
+      <h4>Croissant Breakfast Sandwhich</h4>
+      <h5>$7.00</h5>
+      <p class="w3-text-grey"><img src="./pictures/breakfast sandwhich.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+    
+      <h4>Bagel Breakfast Sandwhich</h4>
+      <h5>$8.00</h5>
+      <p class="w3-text-grey"><img src="./pictures/bagel.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+    
+    
+  </div>
+</div>
+
+
+
+  </div>
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-32">
+    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+    <a href="./loginpage.html">Login</a>
+  </footer>
+</body>
+
+</html>

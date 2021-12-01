@@ -10,7 +10,6 @@
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
-
 <body class="w3-light-grey">
 
 <!-- Top container -->
@@ -23,40 +22,18 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
   <div class="w3-container w3-row">
     <div class="w3-col s4">
-      
     </div>
     <div class="w3-col s8 w3-bar">
-      <span>Welcome <strong>                
-          <script>
-        //personalized to let individual know if they are logged in or not
-        if (username != ""){
-            document.write(`You are logged in, ${user_reg_data[username].name}`)
-        }
-        else{
-            document.write(``)
-        }
-
-    </script>
-    </strong></span><br>
+      <span>Welcome<strong></strong></span><br>
 
     </div>
   </div>
   <hr>
   <div class="w3-container">
-    <Form action="./check_inv" method="POST">
-      <h2>Inventory Check</h2>
-     <input type="submit">
-   </Form>
-   <Form action="./order_form" method="POST">
-    <h2>Create Order</h2>
-   <input type="submit">
-   </Form> 
   </div>
   <div class="w3-bar-block">
-   
-  </div>
-</nav>
 
+</nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
@@ -66,72 +43,39 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-dashboard"></i> Welcome to Coffee Talk!</b><br></h5>
-    <h4><iframe src="https://free.timeanddate.com/clock/i83aphe6/n103/fn2/fs13/tct/pct/ftb/tt0/ta1" frameborder="0" width="376" height="20" allowtransparency="true"></iframe></h4>
-
+    <h5><b><i class="fa fa-dashboard"></i> Welcome to Coffee Talk!</b></h5>
   </header>
 
-    <Form action="/numofemployee" method="POST">
-      <h2>Find Total Employee</h2>
-      <input type="submit" name='submit'>
-      <input type="hidden" name='numofemployee' value="SELECT * FROM Employee">
-    </Form>
+  <form action="/loginform" method="post">
+    <div class="imgcontainer">
+    </div>
+    <h1>Employee Login</h1>
+    <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
 
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
 
-    <Form action="/numoforder" method="POST">
-      <h2>Find Total Order</h2>
-      <input type="submit" name='submit'>
-      <input type="hidden" name="numoforder" value="SELECT * FROM `order`">
-    </Form>
+        <button type="submit">Login</button>
+    </div>
+</form>
 
-    <Form action="/numofmaterials" method="POST">
-      <h2>Find Total Materials</h2>
-      <input type="submit" name='submit'>
-      <input type="hidden" name='numofmaterials' value="SELECT * FROM material">
-    </Form>
+<form action="/managerloginform" method="post">
+  <div class="imgcontainer">
+  </div>
+  <h1>Manager Login</h1>
+  <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" required>
 
-    <Form action="/customerinfo" method="POST">
-      <h2>Customer Information</h2>
-      <input type="submit" name='submit'>
-      <input type="hidden" name='customerinfo' value="SELECT * FROM customer ORDER BY cust_id">
-    </Form>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
 
-    <Form action="/employee_efficiency" method="POST">
-      <h2>Employee Efficiency</h2>
-      Enter a Start Date <input type='date' name='start_date' max="date" required><BR>
-      Enter a End Date <input type='date' name='end_date' required><BR>
-      <input type="submit" value="Submit">
-      </Form>
+      <button type="submit">Login</button>
 
-      <Form action="/add_customer" method="POST">
-        <h2>Add A Customer</h2>
-        First name <input type='text' name='Fname' required><BR>
-        Middle Initial <input type='text' name='Minit'><BR>
-        Last name <input type='text' name='Lname' required><BR>
-        Phone Number <input type='number' maxlength="10" name='pnum' required><BR>
-          Phone Number <input type='text' maxlength="25" name='email'><BR>
-        <input type="submit" value="Submit">
-        </Form>
-
-        
-      <Form action="/add_employee" method="POST">
-        <h2>Add An Employee</h2>
-        SSN <input type='number' maxlength="9" name="Ssn" required><BR>
-        First name <input type='text' name='Fname' required><BR>
-        Middle Initial <input type='text' name='Mini'><BR>
-        Last name <input type='text' name='Lname' required><BR>
-        Address <input type='text' name='Address' required><BR>
-        Gender <input type='text' maxlength="1" name='Gender' required><BR>
-        Birth Date <input type='date'  name='Bdate'><BR>
-        Salary <input type='number'  name='Salary'><BR>
-        Manager SSN <input type='number' maxlength="9" name="Superssn" required><BR>
-        <input type="submit"  value="Submit">
-        </Form>
-
-
-
-
-
+  </div>
+</form>
   <div class="w3-row-padding w3-margin-bottom">
     <div class="w3-quarter">
       
@@ -225,6 +169,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </div>
   </div>
   <br>
+
 
 
   <!-- End page content -->
