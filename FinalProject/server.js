@@ -342,7 +342,7 @@ function create_order(POST, response) {
   eid = POST[`eid`]
   cid = POST[`cid`]
 
-  query = `INSERT INTO \`order\` (O_id, O_quantity, O_date, O_time, Ssn, Cust_id) VALUES ( "${dropdown}","${oqty}", "${odate}", "${otime}", "${eid}","${cid}")`;  // Build the query string
+  query = `INSERT INTO \`order\` (O_id, O_quantity, O_date, O_time, E_id, Cust_id) VALUES ( "${dropdown}","${oqty}", "${odate}", "${otime}", "3","${cid}")`;  // Build the query string
   console.log(query)
   con.query(query, function (err, result, fields) {  
     if (err) {
@@ -363,7 +363,9 @@ function create_order(POST, response) {
       </script>`);
     }
   });
-
+  con.query(`UPDATE material SET M_quantity = M_quantity-${oqty} WHERE M_id=${dropdown}`, function (err, result, fields) { 
+    if (err) throw err
+  });
 
 }
 

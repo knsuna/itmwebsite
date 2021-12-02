@@ -79,7 +79,6 @@ today = yyyy + '-'+ mm +'-'+ dd;
         Order Quantity <input type='text' name='oqty' required><BR>
         Order Date <input type='date' name='odate' required><BR>
         Order Time <input type='time'  name='otime' required><BR>
-        <input type='hidden' maxlength="9" name='eid' value="111111111"><BR>
         Customer ID <input type='number' maxlength="10" name='cid' required><BR>
         <input type="submit" value="Submit" >
       </Form>
