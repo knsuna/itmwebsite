@@ -337,7 +337,7 @@ function add_customer(POST, response) {
       </script>`);
     }
   });
-  con.query(`UPDATE employee SET Minit="Null" WHERE Minit=""`, function (err, result, fields) { 
+  con.query(`UPDATE employee SET Minit=Null WHERE Minit=""`, function (err, result, fields) { 
     if (err) throw err
   });
 }
