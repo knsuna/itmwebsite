@@ -315,6 +315,9 @@ function add_customer(POST, response) {
   Lname = POST['Lname'];
   Pnum = POST['pnum'];
   email=POST['email']
+  if(Minit="undefined"){
+    Minit=''
+  }
   query = `INSERT INTO Customer (Fname, Minit, Lname, Pnum, email) VALUES ( "${Fname}", "${Minit}", "${Lname}", "${Pnum}", "${email}")`;  // Build the query string
   console.log(query)
   con.query(query, function (err, result, fields) {   // Run the query
@@ -333,6 +336,9 @@ function add_customer(POST, response) {
       
       </script>`);
     }
+  });
+  con.query(`UPDATE employee SET Minit="Null" WHERE Minit=""`, function (err, result, fields) { 
+    if (err) throw err
   });
 }
 
@@ -365,6 +371,7 @@ function create_order(POST, response) {
       </script>`);
     }
   });
+
   con.query(`UPDATE material SET M_quantity = M_quantity-${oqty} WHERE M_id=${dropdown}`, function (err, result, fields) { 
     if (err) throw err
   });
