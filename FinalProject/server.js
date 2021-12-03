@@ -75,12 +75,14 @@ function numoforder(POST, response) {
     // Now build the response: table of results and form to do another query
     response_form = `<form action="index.html" method="GET">`;
     response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
-    response_form += `<td><B>Order Number</td><td><B>Order ID</td><td><B>Order Date</td><td><B>Order Time</td></b>`;
+    response_form += `<td><B>Order Number</td><td><B>Order ID</td><td><B>Order Date</td><td><B>Order Time</td></b><td><B>Employee ID</td></b><td><B>Customer ID</td></b>`;
     for (i in res_json) {
       response_form += `<tr><td> ${res_json[i].O_num}</td>`;
       response_form += `<td> ${res_json[i].O_id}</td>`;
       response_form += `<td> ${res_json[i].O_date}</td>`;
       response_form += `<td> ${res_json[i].O_time}</td>`;
+      response_form += `<td> ${res_json[i].E_id}</td>`;
+      response_form += `<td> ${res_json[i].Cust_id}</td>`;
     }
     response_form += "</table>";
     response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
