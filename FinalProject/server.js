@@ -725,7 +725,9 @@ app.post("/create_order", function (request, response) {
       con.query(`UPDATE material SET M_quantity = M_quantity-${oqty} WHERE M_id=${dropdown}`, function (err, result, fields) { 
         if (err) throw err
       });
-
+      con.query(`UPDATE points SET points = points+${oqty} WHERE Cust_id=${cid}`, function (err, result, fields) { 
+        if (err) throw err
+      });
     }
   });
   dquery = `SELECT points FROM reward WHERE Cust_id IN (SELECT Cust_id FROM customer WHERE "${user_reg_data[username].pnum}"=Pnum AND "${user_reg_data[username].email}"=email)`;
