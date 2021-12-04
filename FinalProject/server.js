@@ -725,7 +725,7 @@ app.post("/create_order", function (request, response) {
       con.query(`UPDATE material SET M_quantity = M_quantity-${oqty} WHERE M_id=${dropdown}`, function (err, result, fields) { 
         if (err) throw err
       });
-      con.query(`UPDATE points SET points = points+${oqty} WHERE Cust_id=${cid}`, function (err, result, fields) { 
+      con.query(`UPDATE reward SET points = points+${oqty} WHERE Cust_id=${cid}`, function (err, result, fields) { 
         if (err) throw err
       });
     }
