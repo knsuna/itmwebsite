@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<title>Coffee Talk</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+input[type=submit] {
+    padding:5px 15px; 
+    background:white; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    transition-duration: 0.4s;
+}
+input[type=submit]:hover {
+  background-color: black; /* Green */
+  color: white;
+}
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-padding w3-card" style="letter-spacing:4px;">
+    <a href="./index.html" class="w3-bar-item w3-button">Coffee Talk</a>
+    <!-- Right-sided navbar links. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+
+      <a href="./menu.html" class="w3-bar-item w3-button">Menu</a>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px" id="home">
+
+    <img class="w3-image w3-opacity-min" src="./pictures/73921770-6a30-11ea-aff6-29b0323a275f.jpg" alt="Hamburger Catering" width="1600" height="800">
+  
+    
+    <div class="w3-display-middle w3-padding-large" style="background-color: grey;">
+      <h1 class="w3-xlarge">     
+          <div class="container" >
+            <form action="./register" method="post">
+                    <label for="fname"><br><b>First Name</b></label>
+                    <br> <input type="text" placeholder="Enter First Name" name="fname" required>
+
+                    <label for="minit"><br><b>Middle Name</b></label>
+                    <br><input type="text" placeholder="Enter Middle Name" name="minit">
+
+                    <label for="lname"><br><b>Last Name</b></label>
+                    <br><input type="text" placeholder="Enter Last Name" name="lname" required>
+
+                    <label for="uname"><br><b>Username</b></label>
+                    <br><input type="text" placeholder="Enter Username" name="username" required>
+
+                    <label for="psw"><br><b>Password</b></label>
+                    <br><input type="password" placeholder="Enter Password" name="secondpassword" required>
+
+                    <label for="psw"><br><b>Re-Enter Password</b></label>
+                    <br> <input type="password" placeholder="Re-Enter Password" name="password" required>
+
+                    <label for="email"><br><b>Email</b></label>
+                    <br> <input type="email" placeholder="Enter Email" name="email" required>
+
+                    <label for="pnum"><br><b>Phone Number</b></label>
+                    <br><input type="pnum" placeholder="Enter Phone Number" name="pnum" required>
+
+                    <br><button type="submit">Register</button>
+
+              
+
+                    <button type="button" class="cancelbtn" onclick="window.history.back()">Cancel</button>
+
+            </form>
+          
+          </div>
+    </div>
+  </header>
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:1100px">
+
+  
+  <!-- Menu Section -->
+  
+
+  
+<hr>
+
+
+
+</div>
+
+  
+<!-- End page content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-32">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+  <a href="./loginpage.html">Login</a>
+</footer>
+
+</body>
+</html>

@@ -1,9 +1,14 @@
 var express = require('express');
 var app = express();
-var myParser = require("body-parser");
+var myParser = require("body-parser"); 
 var mysql = require('mysql');
 var fs = require('fs'); 
 const cookieParser = require('cookie-parser');
+const { create } = require('domain');
+
+// cookieParser middleware
+app.use(cookieParser());
+
 var employee_user_data_filename = `./public/employee_user_data.json`;
 var mgr_user_data_filename = `./public/mgr_user_data.json`;
 var user_data_filename = `./public/cust_user_data.json`;
@@ -50,11 +55,21 @@ function numofemployee(POST, response) {
       // Now build the response: table of results and form to do another query
       response_form = `<form action="index.html" method="GET">`;
       response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
-      response_form += `<td><B>First Name</td><td><B>Last Name</td><td><B>Gender</td></b>`;
+      response_form += `<td><B>Employee ID</td>
+      <td><B>First Name</td>
+      <td><B>Middle Initial</td>
+      <td><B>Last Name</td>
+      <td><B>Gender</td>
+      <td><B>Birth Date</td>
+      </b>`;
       for (i in res_json) {
-        response_form += `<tr><td> ${res_json[i].Fname}</td>`;
+        
+        response_form += `<tr><td> ${res_json[i].E_id}</td>`;
+        response_form += `<td> ${res_json[i].Fname}</td>`;
+        response_form += `<td> ${res_json[i].Minit}</td>`;
         response_form += `<td> ${res_json[i].Lname}</td>`;
         response_form += `<td> ${res_json[i].Gender}</td>`;
+        response_form += `<td> ${res_json[i].Bdate}</td>`;
       }
       response_form += "</table>";
       response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
@@ -260,7 +275,9 @@ function add_employee(POST, response) {
   
 }
 
-function order_form(POST, response) {
+
+function order_form(GET, response) {
+
   query = "SELECT * FROM material";
   con.query(query, function (err, result, fields) {   // Run the query
     if (err) throw err;
@@ -276,11 +293,10 @@ function order_form(POST, response) {
     }
     response_form += `</select>`;
         
-    var contents = fs.readFileSync('./public/order.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    var contents = fs.readFileSync('./public/order.view', 'utf8');
     return response.send(eval('`' + contents + '`')); // render template string)
   });
 }
-
 
 function check_inv(POST, response) {
   query = "SELECT M_id, M_name, M_quantity, M_price, Sup_name FROM material,supplier WHERE material.Sup_num=supplier.Sup_num AND M_quantity<=3";
@@ -344,57 +360,10 @@ function add_customer(POST, response) {
   });
 }
 
-function create_order(POST, response) {
-  dropdown = POST[`dropdown`]
-  oqty = POST['oqty'];
-  odate = POST['odate'];
-  otime = POST['otime'];
-  eid = POST[`eid`]
-  cid = POST[`cid`]
 
-  query = `INSERT INTO \`order\` (O_id, O_quantity, O_date, O_time, E_id, Cust_id) VALUES ( "${dropdown}","${oqty}", "${odate}", "${otime}", "3","${cid}")`;  // Build the query string
-  console.log(query)
-  con.query(query, function (err, result, fields) {  
-    if (err) {
-      response.send(`<script>
-      alert("${err.sqlMessage}"); 
-      window.history.back(); 
-      
-      </script>`);
-  
-    }
-    
-    else {
-      
-      response.send(`<script>
-      alert("The record has been added"); 
-      window.history.go(-2); 
-      
-      </script>`);
-    }
-  });
 
-  con.query(`UPDATE material SET M_quantity = M_quantity-${oqty} WHERE M_id=${dropdown}`, function (err, result, fields) { 
-    if (err) throw err
-  });
 
-}
-
-app.get("/login", function (request, response) {
-  username = request.cookies.username
-  response.cookie(`username`, username, {maxAge: 300000});
-  console.log(request.cookies.username)
-  if (typeof user_reg_data[username] != `undefined`) {
-      fullname = user_reg_data[username].name;
-      var contents = fs.readFileSync('./public/order.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
-      return response.send(eval('`' + contents + '`')); // render template string)
-  }
-  return response.redirect(`./login.html`)
-});
-
-app.get("/logout", function (request, response) {
-  response.clearCookie("username").redirect(`./index.html`)
-});
+app.use(cookieParser());
 
 if (fs.existsSync(user_data_filename)) {
   data = fs.readFileSync(user_data_filename, 'utf-8');
@@ -407,11 +376,12 @@ if (fs.existsSync(user_data_filename)) {
   console.log(user_data_filename + ' does not exist!');//Displays warning if user_data.json is missing
 }
 
-app.use(cookieParser());
-
+//The POST request will be redirected to either the invoice or be given a page to retry login/register new account. Partically taken from Lab 14
 app.post("/loginform", function (request, response) {
   // Process login form POST and redirect to logged in page if ok, back to login page if not
-  console.log(request.body);
+  username = request.cookies.username
+  response.cookie(`username`, username, {maxAge: 300000});
+  console.log(request.cookies.username)
   username = request.body.username.toLowerCase();//will recieve username in lowercase ONLY
   if (typeof user_reg_data[username] != 'undefined') {
       //if username exists, get password 
@@ -419,8 +389,7 @@ app.post("/loginform", function (request, response) {
           console.log(username + ' logged in');
           fullname = user_reg_data[username].name;
           response.cookie(`username`, username, {maxAge: 300000});
-          console.log(username)
-          response.redirect(`./index.html`)
+          response.redirect(`./order_form`)
       } else {
           response.send(`<script>
           alert("The password that you have entered is not correct."); 
@@ -438,6 +407,8 @@ app.post("/loginform", function (request, response) {
   }
 
 });
+
+
 //The GET /register is taken from register.html
 app.get("/register", function (request, response) {
   response.redirect(`./register.html`); // render template string
@@ -448,23 +419,36 @@ app.post("/register", function (request, response) {
   var password = request.body.password;//Assigns password to variable
   var second_password = request.body.secondpassword;//Assigns second password to variable
   var email = request.body.email.toLowerCase();//Assigns email to variable and converts to only lowercase
-  var fullname = request.body.fullname;
+  var fname = request.body.fname;
+  var minit = request.body.minit;
+  var lname = request.body.lname;
 
   /*NOTE: I made the validation this way beucase I wanted to be able to display the particular error messages for each issue. 
   Instead of creating some type of function, I wanted the user to be able to see exactly what they were doing wrong by display the issue.
   */
   //if fullname is greater than 30, display error message
-  if (!validatefullname(fullname)) {
+  if (!validatefullname(fname)) {
       console.log(`Full name is more than 30 characters long`);
       response.send(`<script>
-          alert("${fullname} is not valid. Please make sure it contains only letters and is shorter than 30 characters"); 
+          alert("${fname} is not valid. Please make sure it contains only letters and is shorter than 30 characters"); 
           window.history.back(); 
           
           </script>`);
   }
   else {
-      var GoodName = true;
+      var Goodfname = true;
   }
+  if (!validatefullname(lname)) {
+    console.log(`Full name is more than 30 characters long`);
+    response.send(`<script>
+        alert("${lname} is not valid. Please make sure it contains only letters and is shorter than 30 characters"); 
+        window.history.back(); 
+        
+        </script>`);
+}
+else {
+    var Goodlname = true;
+}
   //if username is already defined, display error message
   if ((typeof user_reg_data[username] != 'undefined')) {
       console.log(`The username requested already exists`);
@@ -526,20 +510,82 @@ app.post("/register", function (request, response) {
       var GoodEmail = true;
   }
   //Checks if every variable is true
-  if (GoodUsername && GoodPassword && GoodLength && GoodEmail && GoodUsernameLength && GoodName) {
+  if (GoodUsername && GoodPassword && GoodLength && GoodEmail && GoodUsernameLength && Goodfname && Goodlname) {
       console.log(`Valid registration`)
       username = request.body.username.toLowerCase(); //get username in lowercase
       user_reg_data[username] = {}; //create empty object for array with username
-      user_reg_data[username].name = request.body.fullname; //Assigns full name to new object
+      user_reg_data[username].fname = request.body.fname; 
+      user_reg_data[username].minit = request.body.minit; 
+      user_reg_data[username].lname = request.body.lname; 
       user_reg_data[username].password = request.body.password; //Assigns password to new object
+      user_reg_data[username].pnum = request.body.pnum; //Assigns password to new object
       user_reg_data[username].email = request.body.email.toLowerCase(); //Assigns email to new object
+
       response.cookie(`username`, username, {maxAge: 300000});
 
-      fs.writeFileSync(user_data_filename, JSON.stringify(user_reg_data)); //This will turn ___ into a string
+      query = `INSERT INTO Customer (Fname, Minit, Lname, Pnum, email) VALUES ( "${request.body.fname}", "${request.body.minit}", "${request.body.lname}", "${request.body.pnum}", "${request.body.email}")`;
+      console.log(query)
+      con.query(query, function (err, result, fields) {   // Run the query
+        if (err) {
+          response.send(`<script>
+          alert("${err.sqlMessage}"); 
+          window.history.back(); 
+          
+          </script>`);
+      
+        }
+      });
+      secondquery = `insert into reward (points,Cust_id) select 0, Cust_id from customer where Pnum="${request.body.pnum}" AND email="${request.body.email}";`;
+      console.log(secondquery)
+      con.query(secondquery, function (err, result, fields) {   // Run the query
+        if (err) {
+          response.send(`<script>
+          alert("${err.sqlMessage}"); 
+          window.history.back(); 
+          
+          </script>`);
+      
+        }
+      });
 
+
+      fs.writeFileSync(user_data_filename, JSON.stringify(user_reg_data)); //This will turn ___ into a string
       response.redirect(`./index.html`)
   }
 
+});
+
+//renders the checkout when requested. Will save username, fullname, and email variables to be used in the form that is loaded
+app.get("/checkout", function (request, response) {
+  username = request.cookies.username
+  console.log(request.cookies.username)
+  if (typeof user_reg_data[username] != `undefined`) {
+      fullname = user_reg_data[username].name;
+      email = user_reg_data[username].email;
+    response.redirect(`./order_form`)
+  }
+  else {
+      response.send(`<script>
+      alert("You have not logged in yet. Please login first!")
+      window.location.href = "./login"
+      </script>`)
+  }
+});
+
+app.get("/logout", function (request, response) {
+  response.clearCookie("username").redirect(`./index.html`)
+});
+
+app.get("/login", function (request, response) {
+  username = request.cookies.username
+  response.cookie(`username`, username, {maxAge: 300000});
+  console.log(request.cookies.username)
+  if (typeof user_reg_data[username] != `undefined`) {
+      fullname = user_reg_data[username].name;
+      var contents = fs.readFileSync('./public/order.view', 'utf8');
+      return response.send(eval('`' + contents + '`')); // render template string)
+  }
+  return response.redirect(`./login.html`)
 });
 
 app.all('*', function (request, response, next) {
@@ -587,15 +633,136 @@ app.post("/add_employee", function (request, response) {
   add_employee(POST, response);
 });
 
-app.post("/order_form", function (request, response) {
+app.get("/order_form", function (request, response) {
   let POST = request.body;
+  username = request.cookies.username
+  //console.log(user_reg_data[username])
+  fquery = `SELECT Cust_id FROM customer WHERE "${user_reg_data[username].pnum}"=Pnum AND "${user_reg_data[username].email}"=email`;
+  con.query(fquery, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    //console.log(fquery);
+
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    //console.log(res_json[0].Cust_id, res_json.length)
+    C_form = ``;
+    for (i in res_json) {
+      C_form += `value="${res_json[0].Cust_id}"`;
+    }
+    C_form += ``;
+  })
+
+  dquery = `SELECT points FROM reward WHERE Cust_id IN (SELECT Cust_id FROM customer WHERE "${user_reg_data[username].pnum}"=Pnum AND "${user_reg_data[username].email}"=email)`;
+  con.query(dquery, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    //console.log(dquery);
+
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json, res_json.length)
+    d_form = ``;
+    for (i in res_json) {
+      d_form += `${res_json[0].points}`;
+    }
+    d_form += ``;
+  })
+
   order_form(POST, response);
 });
 
+app.get("./order_cust", function (request, response) {
+  let POST = request.body;
+  order_cust(POST, response);
+});
+
+app.get("./cust_point", function (request,response) {
+  let POST = request.body;
+  username = request.cookies.username
+ //console.log(user_reg_data[username])
+  dquery = `SELECT points FROM reward WHERE Cust_id IN (SELECT Cust_id FROM customer WHERE "${user_reg_data[username].pnum}"=Pnum AND "${user_reg_data[username].email}"=email)`;
+  con.query(dquery, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    //console.log(dquery);
+
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    //console.log(res_json, res_json.length)
+    d_form = ``;
+    for (i in res_json) {
+      d_form += `${res_json[0].points}`;
+    }
+    d_form += ``;
+  })
+  console.log(dquery)
+
+})
+
 app.post("/create_order", function (request, response) {
   let POST = request.body;
-  create_order(POST, response);
-});
+  dropdown = POST[`dropdown`]
+  oqty = POST['oqty'];
+
+  dropdown = POST[`dropdown`]
+  oqty = POST['oqty'];
+  odate = POST['odate'];
+  otime = POST['otime'];
+  eid = POST[`eid`]
+  cid = POST[`cid`]
+
+  query = `INSERT INTO \`order\` (O_id, O_quantity, O_date, O_time, E_id, Cust_id) VALUES ( "${dropdown}","${oqty}", "${odate}", "${otime}", "3","${cid}")`;  // Build the query string
+  console.log(query)
+  con.query(query, function (err, result, fields) {  
+    if (err) {
+      response.send(`<script>
+      alert("${err.sqlMessage}"); 
+      window.history.back(); 
+      
+      </script>`);
+  
+    }
+    
+    else {
+      con.query(`UPDATE material SET M_quantity = M_quantity-${oqty} WHERE M_id=${dropdown}`, function (err, result, fields) { 
+        if (err) throw err
+      });
+
+    }
+  });
+  dquery = `SELECT points FROM reward WHERE Cust_id IN (SELECT Cust_id FROM customer WHERE "${user_reg_data[username].pnum}"=Pnum AND "${user_reg_data[username].email}"=email)`;
+  con.query(dquery, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    //console.log(dquery);
+
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json, res_json.length)
+    d_form = ``;
+    for (i in res_json) {
+      d_form += `${res_json[0].points}`;
+    }
+    d_form += ``;
+  })
+
+    fquery = `SELECT M_cost FROM Material WHERE M_id = ${dropdown}`;
+    con.query(fquery, function (err, result, fields) {   // Run the query
+      if (err) throw err;
+      console.log(fquery);
+  
+      var res_string = JSON.stringify(result);
+      var res_json = JSON.parse(res_string);
+      console.log(res_json, res_json.length)
+      total = ``;
+      for (i in res_json) {
+        total += `${res_json[0].M_cost * oqty}`;
+      }
+      total += ``;
+      console.log(total)
+      var contents = fs.readFileSync('./public/invoice.view', 'utf8');
+      return response.send(eval('`' + contents + '`')); // render template string)
+    })
+  
+
+  })
 
 app.post("/check_inv", function (request, response) {
   let POST = request.body;
@@ -692,5 +859,21 @@ app.post("/managerloginform", function (request, response) {
   }
 
 });
+
+function validateEmail(email) {//used =@ and +\. to seperate sections of email
+  const re = /^[a-zA-Z0-9._]+@[a-zA-Z0-9.]+\.[a-z]{2,3}$/;
+  return re.test(String(email).toLowerCase());
+}
+//Modified to be between 4-10 characters long.
+function validateUsername(user) {
+  const re = /^[a-zA-Z0-9]{4,10}$/;
+  return re.test(String(user).toLowerCase());
+}
+
+function validatefullname(fullname) {
+  const re = /^[ +a-zA-Z]{0,30}$/
+  return re.test(String(fullname));
+}
+
 
 app.listen(8080, () => console.log(`listening on port 8080`));

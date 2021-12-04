@@ -4,6 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script>
+  function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+</script>
 <style>
 body {font-family: "Times New Roman", Georgia, Serif;}
 h1, h2, h3, h4, h5, h6 {
@@ -57,12 +74,25 @@ h1, h2, h3, h4, h5, h6 {
     <div class="w3-right w3-hide-small">
 
       <a href="./menu.html" class="w3-bar-item w3-button">Menu</a>
+      <script>
+        //checks if there is a username cookie
+        var username = getCookie(`username`);
+        if(username == ""){
+            document.write(`
+            <a href="./login" class="w3-bar-item w3-button">Login</a>
+            `)
+        }else{
+            document.write(`
+            <a href="./logout" class="w3-bar-item w3-button"> Logout</a>
+            `)
+        }
+    </script>
     </div>
   </div>
 </div>
 
 <!-- Header -->
-<header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px" id="home">
+<header class="w3-display-container w3-content w3-wide" style="max-width:800px;min-width:250px" id="home">
 
   <img class="w3-image w3-opacity-min" src="./pictures/20170610_180133.jpg" alt="Hamburger Catering" width="1600" height="800">
 
@@ -70,7 +100,7 @@ h1, h2, h3, h4, h5, h6 {
   <div class="w3-display-middle w3-padding-large">
     <h1 class="w3-xxlarge">     
       
-      <Form action="./login.html" method="GET">
+      <Form action="./checkout" method="GET">
         <div style="text-align: center;">
       <input type="submit" name="submit" value="Order Here"></div>
       </Form> </h1>
@@ -122,22 +152,14 @@ h1, h2, h3, h4, h5, h6 {
 
 
 <div class="container" style="background-color:#f1f1f1">
-  <button type="button" class="cancelbtn" onclick="window.history.back()">Cancel</button>
-  <form action="/register" method="GET">
-      <button class="float-left submit-button">Register</button>
-  </form>
 
+  <Form action="./cust_point" method="GET">
+    <div style="text-align: center;">
+  <input type="submit" name="submit" value="point"></div>
+  </Form> </h1>
 
 </div>
-  <!-- Contact Section -->
-  <div class="w3-container w3-padding-64" id="contact">
-    <h1>Already A Customer?</h1><br>
-    <p>Check how much points you have here before order:</p>
-    <form action="/action_page.php" target="_blank">
 
-    </form>
-  </div>
-  
 <!-- End page content -->
 </div>
 
