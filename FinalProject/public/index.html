@@ -10,15 +10,41 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Playfair Display";
   letter-spacing: 5px;
 }
-.form-submit-button {
-     background:#0066A2;
-     color:white;
-     border-style:outset;
-     border-color:#0066A2;
-     height:50px;
-     width:100px;
-     font:bold15px arial,sans-serif;
-     text-shadow:none;
+input[type=submit] {
+    padding:5px 15px; 
+    background:white; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    transition-duration: 0.4s;
+}
+input[type=submit]:hover {
+  background-color: black; /* Green */
+  color: white;
+}
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 </style>
 <body>
@@ -29,75 +55,80 @@ h1, h2, h3, h4, h5, h6 {
     <a href="./index.html" class="w3-bar-item w3-button">Coffee Talk</a>
     <!-- Right-sided navbar links. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
-      <a href="./index.html#about" class="w3-bar-item w3-button">About</a>
-      <a href="./index.html#menu" class="w3-bar-item w3-button">Menu</a>
-      <a href="./index.html#contact" class="w3-bar-item w3-button">Contact</a>
+
+      <a href="./menu.html" class="w3-bar-item w3-button">Menu</a>
     </div>
   </div>
 </div>
 
 <!-- Header -->
 <header class="w3-display-container w3-content w3-wide" style="max-width:1600px;min-width:500px" id="home">
-  <img class="w3-image" src="/w3images/hamburger.jpg" alt="Hamburger Catering" width="1600" height="800">
-  <div class="w3-display-bottomleft w3-padding-large w3-opacity">
-    <h1 class="w3-xxlarge">Coffee Talk</h1>
+
+  <img class="w3-image w3-opacity-min" src="./pictures/20170610_180133.jpg" alt="Hamburger Catering" width="1600" height="800">
+
+  
+  <div class="w3-display-middle w3-padding-large">
+    <h1 class="w3-xxlarge">     
+      
+      <Form action="./login.html" method="GET">
+        <div style="text-align: center;">
+      <input type="submit" name="submit" value="Order Here"></div>
+      </Form> </h1>
   </div>
 </header>
 
 <!-- Page content -->
 <div class="w3-content" style="max-width:1100px">
 
-  <!-- About Section -->
-  <div class="w3-row w3-padding-32" id="about">
-    <div class="w3-col m6 w3-padding-large w3-hide-small">
-     <img src="./pictures/20170610_180133.jpg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="600" height="750">
-    </div>
-
-    <div class="w3-col m6 w3-padding-large">
-      <h1 class="w3-center">About Coffee Talk</h1><br>
-      <h5 class="w3-center">Best Local Coffee in Honolulu</h5>
-      <p class="w3-large">Located in the heart of Kaimuki, Coffee Talk Hawaii is Honolulu's favorite place for getting a boost before work or just hanging out with friends. We serve a wide selection of refreshing drinks, healthy foods and baked goods made daily.</p>
-      
-    </div>
-  </div>
-  
-  <hr>
   
   <!-- Menu Section -->
-  <div class="w3-row w3-padding-64" id="menu">
-    <div class="w3-col l6 w3-padding-large">
-      <h1 class="w3-center">Our Menu</h1><br>
-      <h2>Popular Items</h2>
-      <h4>Hot Drip Coffee</h4>
-      <p class="w3-text-grey"><img src="./pictures/hotdripcoffee.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
-    
-      <h4>Hot Tea</h4>
-      <p class="w3-text-grey"><img src="./pictures/hottea.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
-    
-      <h4>Cold Brew Iced Coffee</h4>
-      <p class="w3-text-grey"><img src="./pictures/coldbrewicedcoffee.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
-    
-      <h4>Cold Brew</h4>
-      <p class="w3-text-grey"><img src="./pictures/coldbrew.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
-    
-      <h4>Espresso</h4>
-      <p class="w3-text-grey"><img src="./pictures/espresso.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
-
-      <h4>Want to see more?</h4>
-      <a href="./menu.html">Click Here:</a>
-    </div>
-    
-    <div class="w3-col l6 w3-padding-large">
-      <img src="./pictures/l.jpg" class="w3-round w3-image w3-opacity-min" alt="Preview" style="width:100%">
-      <h1>Ready to Order?</h1>
-      <Form action="./order_form" method="POST">
-       <input type="submit" name="submit" value="Click Here!">
-       </Form> 
-    </div>
+  <h1 class="w3-center" id="menu">Popular Items</h1><br>
+  <div class="row">
+      <div class="column">
+          <h4>Hot Drip Coffee</h4>
+          <h5>$3.00</h5>
+          <p class="w3-text-grey"><img src="./pictures/hotdripcoffee.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+        
+          <h4>Hot Tea</h4>
+          <h5>$3.00</h5>
+          <p class="w3-text-grey"><img src="./pictures/hottea.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>       
+      </div>
+      <div class="column" >
+          <h4>Americano</h4>
+          <h5>$4.00</h5>
+          <p class="w3-text-grey"><img src="./pictures/americano.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+          <h4>Espresso</h4>
+          <h5>$3.50</h5>
+          <p class="w3-text-grey"><img src="./pictures/espresso.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      </div>
+      <div class="column">
+        <h4>Cold Brew Iced Coffee</h4>
+        <h5>$4.00</h5>
+        <p class="w3-text-grey"><img src="./pictures/coldbrewicedcoffee.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+        <h4>Cold Brew</h4>
+        <h5>$5.00</h5>
+        <p class="w3-text-grey"><img src="./pictures/coldbrew.jpeg" class="w3-round w3-image w3-opacity-min" alt="Table Setting" width="150" height="187.5"></p><br>
+      </div>
   </div>
 
-  <hr>
+    <h1 class="w3-xxlarge">     
+      
+      <Form action="./menu.html" method="GET">
+        <div style="text-align: center;">
+      <input type="submit" name="submit" value="View Full Menu"></div>
+      </Form> </h1>
+  
+<hr>
 
+
+<div class="container" style="background-color:#f1f1f1">
+  <button type="button" class="cancelbtn" onclick="window.history.back()">Cancel</button>
+  <form action="/register" method="GET">
+      <button class="float-left submit-button">Register</button>
+  </form>
+
+
+</div>
   <!-- Contact Section -->
   <div class="w3-container w3-padding-64" id="contact">
     <h1>Already A Customer?</h1><br>
