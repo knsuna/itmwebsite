@@ -82,7 +82,7 @@ today = yyyy + '-'+ mm +'-'+ dd;
         Order Date <input type='date' name='odate' required><BR>
         Order Time <input type='time'  name='otime' required><BR>
         Customer ID ${CustomerIDform}<BR>
-        Employee ID ${EmployeeIDform}<br>
+        Employee ID ${EmployeeIDform}<BR>
         <input type="submit" value="Submit" >
       </Form>
     </div>

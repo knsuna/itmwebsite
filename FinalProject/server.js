@@ -162,7 +162,28 @@ function numofmaterials(POST, response) {
     var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
     return response.send(eval('`' + contents + '`')); // render template string)
   });
+}
 
+
+function customerinvoice(POST, response) {
+  dropdown = POST[`dropdown`]
+  fquery = `SELECT M_cost FROM Material WHERE M_id = ${dropdown}`;
+  console.log(`invoice`)
+  con.query(fquery, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    console.log(fquery);
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    total = ``;
+    for (i in res_json) {
+      total += `${res_json[0].M_cost * oqty}`;
+    }
+    total += ``;
+    console.log(total)
+    var contents = fs.readFileSync('./public/invoice.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    response.send(eval('`' + contents + '`')); // render template string)
+  })
+  
   
 }
 
@@ -804,9 +825,6 @@ app.post("/create_order", function (request, response) {
   let POST = request.body;
   dropdown = POST[`dropdown`]
   oqty = POST['oqty'];
-
-  dropdown = POST[`dropdown`]
-  oqty = POST['oqty'];
   odate = POST['odate'];
   otime = POST['otime'];
   eid = POST[`eid`]
@@ -834,7 +852,6 @@ app.post("/create_order", function (request, response) {
     }
   });
  
-
   dquery = `SELECT points FROM reward WHERE Cust_id IN (SELECT Cust_id FROM customer WHERE "${user_reg_data[username].pnum}"=Pnum AND "${user_reg_data[username].email}"=email)`;
   con.query(dquery, function (err, result, fields) {   // Run the query
     if (err) throw err;
@@ -854,7 +871,6 @@ app.post("/create_order", function (request, response) {
     con.query(fquery, function (err, result, fields) {   // Run the query
       if (err) throw err;
       console.log(fquery);
-  
       var res_string = JSON.stringify(result);
       var res_json = JSON.parse(res_string);
       console.log(res_json, res_json.length)
@@ -867,8 +883,8 @@ app.post("/create_order", function (request, response) {
      
     })
     
-
-  })
+    customerinvoice(POST,response)
+});
 
 app.get("/employee_order_form", function (request, response) {
   let POST = request.body;
@@ -881,7 +897,7 @@ app.get("/employee_order_form", function (request, response) {
     var res_string = JSON.stringify(result);
     var res_json = JSON.parse(res_string);
     //console.log(res_json[0].Cust_id, res_json.length)
-    CustomerIDform = `<select name="dropdown">`;
+    CustomerIDform = `<select name="Cid">`;
     console.log(res_json[0].Cust_id)
     for (i in res_json) {
       CustomerIDform += `<option value="${res_json[i].Cust_id}">${res_json[i].Fname} ${res_json[i].Lname}</option>`;
@@ -896,7 +912,7 @@ app.get("/employee_order_form", function (request, response) {
     var res_string = JSON.stringify(result);
     var res_json = JSON.parse(res_string);
     //console.log(res_json[0].Cust_id, res_json.length)
-    EmployeeIDform = `<select name="dropdown">`;
+    EmployeeIDform = `<select name="Eid">`;
     console.log(res_json[0].E_id)
     for (i in res_json) {
       EmployeeIDform += `<option value="${res_json[i].E_id}">${res_json[i].Fname} ${res_json[i].Lname}</option>`;
@@ -1005,15 +1021,15 @@ app.post("/managerloginform", function (request, response) {
 
 app.post("/employee_create_order", function (request, response) {
   let POST = request.body;
-  dropdown = POST[`dropdown`]
+  downdrop = POST[`dropdown`]
   oqty = POST['oqty'];
   oqty = POST['oqty'];
   odate = POST['odate'];
   otime = POST['otime'];
-  eid = POST[`eid`]
-  cid = POST[`cid`]
+  eid = POST[`Eid`]
+  cid = POST[`Cid`]
 
-  query = `INSERT INTO \`order\` (O_id, O_quantity, O_date, O_time, E_id, Cust_id) VALUES ( "${dropdown}","${oqty}", "${odate}", "${otime}", "${eid}","${cid}")`;  // Build the query string
+  query = `INSERT INTO \`order\` (O_id, O_quantity, O_date, O_time, E_id, Cust_id) VALUES ( "${downdrop}","${oqty}", "${odate}", "${otime}", "${eid}","${cid}")`;  // Build the query string
   console.log(query)
   con.query(query, function (err, result, fields) {  
     if (err) {
@@ -1026,7 +1042,7 @@ app.post("/employee_create_order", function (request, response) {
     }
     
     else {
-      con.query(`UPDATE material SET M_quantity = M_quantity-${oqty} WHERE M_id=${dropdown}`, function (err, result, fields) { 
+      con.query(`UPDATE material SET M_quantity = M_quantity-${oqty} WHERE M_id=${downdrop}`, function (err, result, fields) { 
         if (err) throw err
       });
       con.query(`UPDATE reward SET points = points+${oqty} WHERE Cust_id=${cid}`, function (err, result, fields) { 
@@ -1034,7 +1050,8 @@ app.post("/employee_create_order", function (request, response) {
       });
     }
   });
-  fquery = `SELECT M_cost FROM Material WHERE M_id = ${dropdown}`;
+  console.log(downdrop)
+  fquery = `SELECT M_cost FROM Material WHERE M_id = ${downdrop}`;
     con.query(fquery, function (err, result, fields) {   // Run the query
       if (err) throw err;
       console.log(fquery);
@@ -1048,6 +1065,7 @@ app.post("/employee_create_order", function (request, response) {
       }
       total += ``;
       console.log(total)
+
       var contents = fs.readFileSync('./public/employeeinvoice.view', 'utf8');
       return response.send(eval('`' + contents + '`')); // render template string)
     })

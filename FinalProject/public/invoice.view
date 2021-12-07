@@ -74,17 +74,10 @@ today = yyyy + '-'+ mm +'-'+ dd;
     </script>
 
     <div class="w3-col m6 w3-padding-large">
-      <h1 class="w3-center">Order Here:</h1><br>
-      <h3>You current have: ${d_form} points</h3>
-      <Form action="/create_order" method="POST">
-        <h2>Create Order</h2>
-        <label for="dropdown">Enter Product: ${response_form}</label><br>
-        Order Quantity <input type='text' name='oqty' required><BR>
-        Order Date <input type='date' name='odate' required><BR>
-        Order Time <input type='time'  name='otime' required><BR>
-        Customer ID <input type='number' maxlength="10" name='cid' ${C_form} required readonly><BR>
-        <input type="submit" value="Submit" >
-      </Form>
+      <h1 class="w3-center">Order Information:</h1><br>
+      <h2>Your Total Will be $${total}<h2>
+      <h4>You current have: ${d_form} Points</h4>
+    
     </div>
   </div>
  
