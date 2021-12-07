@@ -833,9 +833,7 @@ app.post("/create_order", function (request, response) {
       });
     }
   });
-
-
-  
+ 
 
   dquery = `SELECT points FROM reward WHERE Cust_id IN (SELECT Cust_id FROM customer WHERE "${user_reg_data[username].pnum}"=Pnum AND "${user_reg_data[username].email}"=email)`;
   con.query(dquery, function (err, result, fields) {   // Run the query
@@ -866,10 +864,9 @@ app.post("/create_order", function (request, response) {
       }
       total += ``;
       console.log(total)
-      var contents = fs.readFileSync('./public/invoice.view', 'utf8');
-      return response.send(eval('`' + contents + '`')); // render template string)
+     
     })
-  
+    
 
   })
 
@@ -1010,7 +1007,6 @@ app.post("/employee_create_order", function (request, response) {
   let POST = request.body;
   dropdown = POST[`dropdown`]
   oqty = POST['oqty'];
-  dropdown = POST[`dropdown`]
   oqty = POST['oqty'];
   odate = POST['odate'];
   otime = POST['otime'];

@@ -75,7 +75,7 @@ today = yyyy + '-'+ mm +'-'+ dd;
 
     <div class="w3-col m6 w3-padding-large">
       <h1 class="w3-center">Order Here:</h1><br>
-      <h3>You current have: ${d_form} points</h3>
+      <h3>You currently have: ${d_form} points</h3>
       <Form action="/create_order" method="POST">
         <h2>Create Order</h2>
         <label for="dropdown">Enter Product: ${response_form}</label><br>
