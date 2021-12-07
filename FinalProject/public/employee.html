@@ -111,6 +111,12 @@ h1, h2, h3, h4, h5, h6 {
              </Form>
              <h8>Less than 3 in inventory</h8>
                
+             <h2><br>Basic Employee Information</h2>
+             <Form action="/numofemployee" method="POST">
+              <u><h4>Employee Information </h4></u>
+              <input type="submit" name='submit'>
+              <input type="hidden" name='numofemployee' value="SELECT * FROM employee_nonconfidential_view">
+            </Form>
         </div>
         <div class="column" >
             <h2>Order Processing</h2>

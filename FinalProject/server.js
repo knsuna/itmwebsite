@@ -73,10 +73,52 @@ function numofemployee(POST, response) {
       }
       response_form += "</table>";
       response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
-      console.log(response_form)
       var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
       return response.send(eval('`' + contents + '`')); // render template string)
     });
+
+}
+
+function mgrnumofemployee(POST, response) {
+  query = POST['mgrnumofemployee'];
+  
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    console.log(result);
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json);
+
+    // Now build the response: table of results and form to do another query
+    response_form = `<form action="index.html" method="GET">`;
+    response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+    response_form += `<td><B>Employee ID</td>
+    <td><B>First Name</td>
+    <td><B>Middle Initial</td>
+    <td><B>Last Name</td>
+    <td><B>Gender</td>
+    <td><B>Address</td>
+    <td><B>Birth Date</td>
+    <td><B>Salary</td>
+    <td><B>Manager SSN</td>
+    </b>`;
+    for (i in res_json) {
+      
+      response_form += `<tr><td> ${res_json[i].E_id}</td>`;
+      response_form += `<td> ${res_json[i].Fname}</td>`;
+      response_form += `<td> ${res_json[i].Minit}</td>`;
+      response_form += `<td> ${res_json[i].Lname}</td>`;
+      response_form += `<td> ${res_json[i].Gender}</td>`;
+      response_form += `<td> ${res_json[i].Address}</td>`;
+      response_form += `<td> ${res_json[i].Bdate}</td>`;
+      response_form += `<td> ${res_json[i].Salary}</td>`;
+      response_form += `<td> ${res_json[i].Superssn}</td>`;
+    }
+    response_form += "</table>";
+    response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
+    var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    return response.send(eval('`' + contents + '`')); // render template string)
+  });
 
 }
 
@@ -106,10 +148,33 @@ function numoforder(POST, response) {
     var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
     return response.send(eval('`' + contents + '`')); // render template string)
   });
-
-  
 }
 
+function Supplierpayment(POST, response) {
+  query = POST['Supplierpayment'];
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    console.log(result);
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json);
+
+    // Now build the response: table of results and form to do another query
+    response_form = `<form action="index.html" method="GET">`;
+    response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+    response_form += `<td><B>Supplier Name</td><td><B>Number of Products from Supplier</td><td><B>Current Inventory Price</td></b>`;
+    for (i in res_json) {
+      response_form += `<tr><td> ${res_json[i].Sup_name}</td>`;
+      response_form += `<td> ${res_json[i].From_Supplier}</td>`;
+      response_form += `<td> ${res_json[i].Material_Price.toFixed(2)}</td>`;
+
+    }
+    response_form += "</table>";
+    response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
+    var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    return response.send(eval('`' + contents + '`')); // render template string)
+  });
+}
 function numofordertoday(POST, response) {
   query = POST['numofordertoday'];
   con.query(query, function (err, result, fields) {   // Run the query
@@ -206,6 +271,55 @@ function customerinfo(POST, response) {
       response_form += `<td> ${res_json[i].Minit}</td>`;
       response_form += `<td> ${res_json[i].Lname}</td>`;
       response_form += `<td> ${res_json[i].Pnum}</td>`;
+    }
+    response_form += "</table>";
+    response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
+    var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    return response.send(eval('`' + contents + '`')); // render template string)
+  });
+}
+
+function greaterthanavg(POST, response) {
+  query = POST['greaterthanavg'];
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    console.log(result);
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json);
+
+    // Now build the response: table of results and form to do another query
+    response_form = `<form action="window.history.back()" method="GET">`;
+    response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+    response_form += `<td><B>Customer ID</td><td><B>First Name</td><B>Last Name</td></b><td><B>Last Name</td></b>`;
+    for (i in res_json) {
+      response_form += `<tr><td> ${res_json[i].Cust_id}</td>`;
+      response_form += `<td> ${res_json[i].Fname}</td>`;
+      response_form += `<td> ${res_json[i].Lname}</td>`;
+    }
+    response_form += "</table>";
+    response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
+    var contents = fs.readFileSync('./public/template.view', 'utf8'); //So that the display_invoice_table_rows will be rendered with invoice.view
+    return response.send(eval('`' + contents + '`')); // render template string)
+  });
+}
+
+function greaterthanavgorder(POST, response) {
+  query = POST['greaterthanavgorder'];
+  con.query(query, function (err, result, fields) {   // Run the query
+    if (err) throw err;
+    console.log(result);
+    var res_string = JSON.stringify(result);
+    var res_json = JSON.parse(res_string);
+    console.log(res_json);
+
+    // Now build the response: table of results and form to do another query
+    response_form = `<form action="window.history.back()" method="GET">`;
+    response_form += `<table border="3" cellpadding="5" cellspacing="5">`;
+    response_form += `<td><B>Product Name</td></b>`;
+    for (i in res_json) {
+      response_form += `<tr><td> ${res_json[i].M_name}</td>`;
+
     }
     response_form += "</table>";
     response_form += `<input type="button" value="Go Back" onclick="history.back()"> </form>`;
@@ -663,7 +777,11 @@ else {
 
 
       fs.writeFileSync(user_data_filename, JSON.stringify(user_reg_data)); //This will turn ___ into a string
-      response.redirect(`./index.html`)
+      response.send(`<script>
+      alert("Your Account has been Created"); 
+      window.location="./index.html"; 
+      
+      </script>`);
   }
 
 });
@@ -716,10 +834,33 @@ app.post("/numofemployee", function (request, response) {
   numofemployee(POST, response);
 });
 
+app.post("/mgrnumofemployee", function (request, response) {
+  let POST = request.body;
+  mgrnumofemployee(POST, response);
+});
+
+
 app.post("/numoforder", function (request, response) {
   let POST = request.body;
   numoforder(POST, response);
 });
+
+app.post("/Supplierpayment", function (request, response) {
+  let POST = request.body;
+  Supplierpayment(POST, response);
+});
+
+app.post("/greaterthanavg", function (request, response) {
+  let POST = request.body;
+  greaterthanavg(POST, response);
+});
+
+
+app.post("/greaterthanavgorder", function (request, response) {
+  let POST = request.body;
+  greaterthanavgorder(POST, response);
+});
+
 
 app.post("/numofordertoday", function (request, response) {
   let POST = request.body;
